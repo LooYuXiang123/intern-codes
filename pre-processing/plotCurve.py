@@ -11,7 +11,7 @@ import sys
 # Polynomial function to define general shape of curve
 def objective(x, a, b, c):
 	return a * x + b * x**2 + c
-
+ 
 # Load the dataset
 url1 = sys.argv[1]
 url2 = sys.argv[2]

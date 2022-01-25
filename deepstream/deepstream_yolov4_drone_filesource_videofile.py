@@ -12,7 +12,7 @@ from common.FPS import GETFPS
 import pyds
 import cv2
 import os
-
+ 
 
 
 # PGIE_CLASS_ID_VEHICLE = 0

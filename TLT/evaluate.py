@@ -9,7 +9,7 @@ from clearml import Task
 
 def get_timestamp():
     timenow = datetime.now(pytz.timezone('Asia/Singapore'))
-    return timenow.strftime('%Y-%m-%d-%H:%M:%S')
+    return timenow.strftime('%Y-%m-%d-%H:%M:%S') 
 
 def create_new_experiment_workspace(model, timestamp):
     # create workspace dir
