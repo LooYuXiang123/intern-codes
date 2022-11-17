@@ -102,7 +102,26 @@ if __name__ == '__main__':
         elif zipped_data_filename.endswith('.tar.gz'): 
             import tarfile
             with tarfile.open(os.path.join(WORKSPACE_DIR, zipped_data_filename),'r') as tar_ref:
-                tar_ref.extractall(DATA_DIR)
+                def is_within_directory(directory, target):
+                    
+                    abs_directory = os.path.abspath(directory)
+                    abs_target = os.path.abspath(target)
+                
+                    prefix = os.path.commonprefix([abs_directory, abs_target])
+                    
+                    return prefix == abs_directory
+                
+                def safe_extract(tar, path=".", members=None, *, numeric_owner=False):
+                
+                    for member in tar.getmembers():
+                        member_path = os.path.join(path, member.name)
+                        if not is_within_directory(path, member_path):
+                            raise Exception("Attempted Path Traversal in Tar File")
+                
+                    tar.extractall(path, members, numeric_owner=numeric_owner) 
+                    
+                
+                safe_extract(tar_ref, DATA_DIR)
                 DATA_DIR = os.path.join(DATA_DIR, list(os.listdir(DATA_DIR))[0])
         #unzipping of tfrecords file
         if zipped_tfrecords.endswith('.zip'):
@@ -113,7 +132,26 @@ if __name__ == '__main__':
         elif zipped_tfrecords.endswith('.tar.gz'):
             import tarfile
             with tarfile.open(os.path.join(WORKSPACE_DIR,zipped_tfrecords), 'r') as tarred_ref:
-                tarred_ref.extractall(os.path.join(DATA_DIR, 'tfrecords'))
+                def is_within_directory(directory, target):
+                    
+                    abs_directory = os.path.abspath(directory)
+                    abs_target = os.path.abspath(target)
+                
+                    prefix = os.path.commonprefix([abs_directory, abs_target])
+                    
+                    return prefix == abs_directory
+                
+                def safe_extract(tar, path=".", members=None, *, numeric_owner=False):
+                
+                    for member in tar.getmembers():
+                        member_path = os.path.join(path, member.name)
+                        if not is_within_directory(path, member_path):
+                            raise Exception("Attempted Path Traversal in Tar File")
+                
+                    tar.extractall(path, members, numeric_owner=numeric_owner) 
+                    
+                
+                safe_extract(tarred_ref, os.path.join(DATA_DIR,"tfrecords"))
 
         
 
